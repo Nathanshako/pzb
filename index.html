@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -468,6 +469,112 @@
 
   @media (max-width:680px){
     .founders-grid{ grid-template-columns:1fr; gap:36px; }
+  }
+
+  /* ---------- founder social popover ---------- */
+  .founder-name-trigger{
+    position:relative;
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    cursor:pointer;
+    padding:4px 2px;
+  }
+  .founder-name-trigger h5{ margin:0; }
+
+  /* persistent "this is interactive" affordance */
+  .founder-hint{
+    width:16px; height:16px;
+    border-radius:50%;
+    border:1.4px solid var(--black);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+    opacity:0.55;
+    transition:opacity .2s ease, transform .2s ease, background .2s ease, border-color .2s ease;
+  }
+  .founder-hint svg{
+    width:8px; height:8px;
+    stroke:var(--black);
+    stroke-width:2.4;
+    fill:none;
+  }
+  .founder-name-trigger:hover .founder-hint,
+  .founder-name-trigger.active .founder-hint{
+    opacity:1;
+    background:var(--black);
+    border-color:var(--black);
+    transform:scale(1.08);
+  }
+  .founder-name-trigger:hover .founder-hint svg,
+  .founder-name-trigger.active .founder-hint svg{
+    stroke:var(--paper);
+  }
+
+  /* gentle pulse so first-time visitors notice the feature, runs a few times then stops */
+  .founder-hint.pulse{
+    animation:hintPulse 1.8s ease-in-out 3;
+  }
+  @keyframes hintPulse{
+    0%, 100%{ box-shadow:0 0 0 0 rgba(10,10,10,0.18); }
+    50%{ box-shadow:0 0 0 6px rgba(10,10,10,0); }
+  }
+
+  .founder-popover{
+    position:absolute;
+    bottom:calc(100% + 14px);
+    left:50%;
+    transform:translateX(-50%) translateY(8px);
+    background:var(--black);
+    border-radius:14px;
+    padding:12px;
+    display:flex;
+    gap:9px;
+    box-shadow:0 14px 34px -8px rgba(0,0,0,0.45);
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    transition:opacity .2s ease, transform .2s ease, visibility .2s;
+    z-index:30;
+  }
+  .founder-popover::after{
+    content:'';
+    position:absolute;
+    top:100%; left:50%;
+    transform:translateX(-50%);
+    border:7px solid transparent;
+    border-top-color:var(--black);
+  }
+  .founder-name-trigger:hover .founder-popover,
+  .founder-name-trigger.active .founder-popover{
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+    transform:translateX(-50%) translateY(0);
+  }
+  .founder-popover a{
+    width:36px; height:36px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:transform .2s cubic-bezier(.2,.8,.2,1.3);
+    flex-shrink:0;
+  }
+  .founder-popover a:hover{ transform:translateY(-3px) scale(1.08); }
+  .founder-popover svg{
+    width:16px; height:16px;
+    fill:#ffffff;
+  }
+
+  @media (max-width:680px){
+    .founder-popover{ bottom:calc(100% + 12px); }
+  }
+  @media (max-width:380px){
+    .founder-popover{ padding:10px; gap:7px; }
+    .founder-popover a{ width:32px; height:32px; }
+    .founder-popover svg{ width:14px; height:14px; }
   }
 
   /* ---------- values footer strip ---------- */
@@ -998,414 +1105,851 @@
     margin-bottom:6px;
     opacity:0;
     animation:fadeUp .5s ease forwards;
-    animation-delay:1.1s;
+    animation-delay:1.15s;
+  }
+  .badge-name{
+    font-family:'Bungee', cursive;
+    font-size:clamp(18px,5.5vw,24px);
+    color:#f3f1ec;
+    margin-bottom:20px;
+    padding:0 8px;
+    text-align:center;
+    word-break:break-word;
+    opacity:0;
+    animation:fadeUp .55s ease forwards;
+    animation-delay:1.25s;
+    text-shadow:0 0 18px rgba(201,164,93,0.25);
   }
 
-  .badge-name{
-    font-family:'Anton', sans-serif;
-    font-size:16px;
-    letter-spacing:0.04em;
-    text-transform:uppercase;
-    color:#f3f1ec;
-    margin-bottom:0;
+  .badge-pillars{
+    display:flex;
+    gap:14px;
+    margin-bottom:auto;
+    padding-bottom:18px;
     opacity:0;
     animation:fadeUp .5s ease forwards;
-    animation-delay:1.15s;
+    animation-delay:1.4s;
+  }
+  .badge-pillars span{
+    font-family:'JetBrains Mono', monospace;
+    font-size:8px;
+    letter-spacing:0.1em;
+    color:#9a9a93;
+    text-transform:uppercase;
+  }
+  .badge-pillars .dot{ color:#c9a45d; }
+
+  .badge-footer-row{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding-top:14px;
+    border-top:1px solid rgba(255,255,255,0.1);
+    opacity:0;
+    animation:fadeUp .5s ease forwards;
+    animation-delay:1.5s;
+  }
+  .badge-id{
+    font-family:'JetBrains Mono', monospace;
+    font-size:8px;
+    letter-spacing:0.08em;
+    color:#777;
+  }
+  .badge-seal-mini{
+    width:30px; height:30px;
+    border:1.4px solid #c9a45d;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .badge-seal-mini svg{ width:14px; height:14px; }
+
+  /* sheen sweep across badge */
+  .badge-sheen{
+    position:absolute;
+    top:0; left:-60%;
+    width:40%; height:100%;
+    background:linear-gradient(115deg, transparent, rgba(255,255,255,0.16), transparent);
+    transform:skewX(-18deg);
+    animation:badgeSheen 1.6s ease forwards;
+    animation-delay:1.7s;
+    pointer-events:none;
+  }
+  @keyframes badgeSheen{
+    0%{ left:-60%; }
+    100%{ left:140%; }
+  }
+
+  .badge-actions{
+    display:flex;
+    gap:12px;
+    justify-content:center;
+    margin-bottom:22px;
+    opacity:0;
+    animation:fadeUp .5s ease forwards;
+    animation-delay:1.85s;
+  }
+  .badge-actions button{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    padding:11px 18px;
+    border:1px solid var(--black);
+    background:transparent;
+    color:var(--black);
+    cursor:pointer;
+    transition:background .2s ease, color .2s ease;
+  }
+  .badge-actions button:hover{ background:var(--black); color:var(--paper); }
+
+  .pledge-result p.result-caption{
+    font-size:14.5px;
+    color:#555;
+    max-width:340px;
+    margin:0 auto;
+    line-height:1.6;
+  }
+
+  @media (max-width:420px){
+    .badge-card{ width:260px; }
+  }
+
+  /* ---------- FAQ ---------- */
+  .faq-section{
+    padding:96px 0 110px;
+    background:var(--paper-2);
+  }
+  .faq-section .eyebrow{ text-align:center; font-size:12px; color:#555; margin-bottom:18px; }
+  .faq-section h2{
+    text-align:center;
+    font-size:clamp(28px,4.6vw,46px);
+    margin-bottom:50px;
+  }
+  .faq-list{
+    max-width:720px;
+    margin:0 auto;
+  }
+  .faq-item{
+    border-bottom:1px solid var(--line);
+  }
+  .faq-q{
+    width:100%;
+    background:none;
+    border:none;
+    text-align:left;
+    padding:24px 4px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    cursor:pointer;
+    font-family:'Inter', sans-serif;
+    font-weight:600;
+    font-size:17px;
+    color:var(--black);
+  }
+  .faq-q .plus{
+    flex-shrink:0;
+    width:22px; height:22px;
+    position:relative;
+  }
+  .faq-q .plus::before, .faq-q .plus::after{
+    content:'';
+    position:absolute;
+    background:var(--black);
+    transition:transform .25s ease;
+  }
+  .faq-q .plus::before{ top:50%; left:0; width:100%; height:2px; transform:translateY(-50%); }
+  .faq-q .plus::after{ left:50%; top:0; height:100%; width:2px; transform:translateX(-50%); }
+  .faq-item.open .plus::after{ transform:translateX(-50%) rotate(90deg); opacity:0; }
+  .faq-a{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .3s ease;
+  }
+  .faq-a p{
+    padding:0 4px 24px;
+    font-size:15.5px;
+    line-height:1.75;
+    color:#444;
+    max-width:90%;
+  }
+
+  
+  .reveal{
+    opacity:0;
+    transform:translateY(24px);
+    transition:opacity .7s ease, transform .7s ease;
+  }
+  .reveal.in{
+    opacity:1;
+    transform:translateY(0);
   }
 </style>
 </head>
-
 <body>
-<div class="scroll-progress"></div>
 
-<!-- Navigation -->
+<div class="scroll-progress" id="scrollProgress"></div>
+
 <nav class="nav">
   <div class="nav-inner">
-    <div class="nav-mark">
-      <svg viewBox="0 0 26 30" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="10" y="10" width="6" height="10" fill="currentColor"/><rect x="5" y="15" width="16" height="2" fill="currentColor"/></svg>
+    <a href="#top" class="nav-mark">
+      <span class="logo-slot logo-slot-sm has-skeleton" data-logo>
+        <img src="pzb-logo.png" alt="PZB — Protekt Ze Brand logo" onload="this.classList.add('loaded'); this.parentElement.classList.remove('has-skeleton');" onerror="this.style.display='none'; this.parentElement.classList.remove('has-skeleton'); this.nextElementSibling.style.display='block';">
+        <svg class="logo-fallback" viewBox="0 0 100 116" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M50 2 L96 16 V58 C96 88 76 104 50 114 C24 104 4 88 4 58 V16 Z" fill="#0a0a0a"/>
+        </svg>
+      </span>
       <span>PZB</span>
-    </div>
+    </a>
     <div class="nav-links">
       <a href="#mission">Mission</a>
-      <a href="#standards">Standards</a>
-      <a href="#story">Story</a>
+      <a href="#standard">Standard</a>
+      <a href="#pledge">Badge of Vow</a>
+      <a href="#faq">FAQ</a>
+      <a href="#join" class="nav-cta">Take the standard</a>
     </div>
-    <button class="nav-cta">Join</button>
+
+    <button class="nav-burger" id="navBurger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
   </div>
-  <button class="nav-burger" aria-label="Menu">
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
 </nav>
 
-<div class="drawer-overlay"></div>
-<div class="mobile-drawer">
+<div class="drawer-overlay" id="drawerOverlay"></div>
+<nav class="mobile-drawer" id="mobileDrawer" aria-label="Mobile navigation">
   <a href="#mission">Mission</a>
-  <a href="#standards">Standards</a>
-  <a href="#story">Story</a>
-  <a href="#" class="drawer-cta">Join</a>
-</div>
+  <a href="#standard">Standard</a>
+  <a href="#action">In Action</a>
+  <a href="#founders">Founders</a>
+  <a href="#pledge">Badge of Vow</a>
+  <a href="#faq">FAQ</a>
+  <a href="#join" class="drawer-cta mono">Take the standard</a>
+</nav>
 
-<!-- Hero -->
-<section class="hero">
-  <div class="wrap">
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero wrap">
     <div class="hero-mark">
-      <svg viewBox="0 0 120 138" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M60 20L100 60V100H20V60L60 20Z" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="60" cy="60" r="6" fill="currentColor"/></svg>
+      <span class="logo-slot logo-slot-lg has-skeleton" data-logo>
+        <img src="pzb-logo.png" alt="PZB — Protekt Ze Brand logo" onload="this.classList.add('loaded'); this.parentElement.classList.remove('has-skeleton');" onerror="this.style.display='none'; this.parentElement.classList.remove('has-skeleton'); this.nextElementSibling.style.display='block';">
+        <svg class="logo-fallback" viewBox="0 0 200 232" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M100 4 L192 32 V116 C192 176 152 208 100 228 C48 208 8 176 8 116 V32 Z" fill="#0a0a0a"/>
+          <text x="100" y="148" text-anchor="middle" font-family="Anton" font-size="92" fill="#f3f1ec">PZB</text>
+        </svg>
+      </span>
     </div>
-    <h1>Protekt Ze Brand</h1>
-    <p class="sub-mark">YOUR STANDARD</p>
+    <h1 class="display">Protekt<br>Ze Brand</h1>
+    <div class="sub-mark mono">P&nbsp;&nbsp;Z&nbsp;&nbsp;B</div>
     <div class="hero-rule">
       <div class="line"></div>
-      <span>Est. 2024</span>
+      <span>Be your standard</span>
       <div class="line"></div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- Statement Bar -->
-<section class="bar">
-  <div class="wrap">
-    <h2>Your reputation is your brand. Protect it.</h2>
-  </div>
-</section>
+  <!-- STATEMENT BAR -->
+  <section class="bar reveal">
+    <div class="wrap">
+      <h2 class="display">Your reputation is your brand.<br>Protect it.</h2>
+    </div>
+  </section>
 
-<!-- Mission & Means -->
-<section class="split" id="mission">
-  <div class="wrap">
-    <div class="split-grid">
-      <div class="col">
+  <!-- MISSION / MEANS -->
+  <section class="split" id="mission">
+    <div class="wrap split-grid">
+      <div class="col reveal">
         <div class="col-icon">
-          <svg viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="27" cy="27" r="22" stroke="currentColor" stroke-width="2"/><path d="M27 15V39M15 27H39" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <svg viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M27 2 L50 10 V26 C50 39 40 47 27 52 C14 47 4 39 4 26 V10 Z" stroke="#0a0a0a" stroke-width="2.4"/>
+            <path d="M17 27 L24 34 L37 19" stroke="#0a0a0a" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
         </div>
-        <h3>Our Mission</h3>
+        <h3 class="display">Mission</h3>
         <div class="underline"></div>
         <p>To inspire people to protect their reputation by living with integrity, respect, and purpose.</p>
       </div>
+
       <div class="divider"></div>
-      <div class="col">
+
+      <div class="col reveal">
         <div class="col-icon">
-          <svg viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M27 12L40 25L32 25L32 42L22 42L22 25L14 25L27 12Z" fill="currentColor"/></svg>
+          <svg viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M27 2 L50 10 V26 C50 39 40 47 27 52 C14 47 4 39 4 26 V10 Z" stroke="#0a0a0a" stroke-width="2.4"/>
+            <circle cx="27" cy="20" r="6.4" stroke="#0a0a0a" stroke-width="2.4"/>
+            <path d="M14 38 C14 30 19.5 27 27 27 C34.5 27 40 30 40 38" stroke="#0a0a0a" stroke-width="2.4" stroke-linecap="round"/>
+          </svg>
         </div>
-        <h3>Our Means</h3>
+        <h3 class="display">What It Means</h3>
         <div class="underline"></div>
-        <p>Be Your Standard — live authentically and build a legacy of trust.</p>
+        <p>Do the right things. At the right time. Even when no one is watching.</p>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- Pillars Section -->
-<section class="pillars" id="standards">
-  <div class="wrap">
-    <p class="eyebrow">CORE VALUES</p>
-    <h2>The Four Standards</h2>
-    <div class="pillar-grid">
-      <div class="pillar">
-        <div class="stamp-wrap">
-          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="15" y="15" width="34" height="34" rx="2" stroke="currentColor" stroke-width="2"/><path d="M24 32L29 37L42 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <!-- FOUNDERS STORY -->
+  <section class="story reveal">
+    <div class="wrap">
+      <div class="eyebrow mono">Why we started this</div>
+      <h2 class="display">The story behind PZB</h2>
+      <p>PZB started as a conversation between two friends, Dan Mwamba and Nathan Shako, about something they kept seeing: people chasing image while quietly letting their character slide. Followers, titles, and applause were treated like the brand itself — when really, those things are just the reflection.</p>
+      <p>They built PZB on a simpler idea. Your reputation isn't manufactured in public — it's earned in private, in the choices nobody applauds and nobody punishes. The brand you're protecting was never the logo. It's you.</p>
+    </div>
+  </section>
+
+  <!-- PILLARS -->
+  <section class="pillars" id="standard">
+    <div class="wrap">
+      <div class="eyebrow mono reveal">The four pillars</div>
+      <h2 class="display reveal">What we protect</h2>
+
+      <div class="pillar-grid">
+
+        <div class="pillar" data-stamp>
+          <span class="num">01</span>
+          <div class="stamp-wrap">
+            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="32" cy="32" r="26" stroke="#9a2b2b" stroke-width="2.6"/>
+              <path d="M20 33 L28 41 L45 22" stroke="#9a2b2b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h4>Respect</h4>
+          <p>How you treat people when it costs you nothing — and when it costs you something.</p>
         </div>
-        <h4>Integrity</h4>
-        <p>Act with honesty and moral principle in all situations.</p>
-        <span class="num">01</span>
-      </div>
-      <div class="pillar">
-        <div class="stamp-wrap">
-          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="32" r="18" stroke="currentColor" stroke-width="2"/><path d="M32 20V32L42 40" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+
+        <div class="pillar" data-stamp>
+          <span class="num">02</span>
+          <div class="stamp-wrap">
+            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="32" cy="32" r="26" stroke="#9a2b2b" stroke-width="2.6"/>
+              <path d="M32 16 V48 M16 32 H48" stroke="#9a2b2b" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h4>Integrity</h4>
+          <p>Doing the right thing at the right time, even when no one is watching.</p>
         </div>
-        <h4>Respect</h4>
-        <p>Value others' dignity, boundaries, and perspectives.</p>
-        <span class="num">02</span>
-      </div>
-      <div class="pillar">
-        <div class="stamp-wrap">
-          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M32 16L48 32L48 50H16V32L32 16Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="32" cy="40" r="3" fill="currentColor"/></svg>
+
+        <div class="pillar" data-stamp>
+          <span class="num">03</span>
+          <div class="stamp-wrap">
+            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="32" cy="32" r="26" stroke="#9a2b2b" stroke-width="2.6"/>
+              <path d="M32 18 L32 32 L41 41" stroke="#9a2b2b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h4>Purpose</h4>
+          <p>Acting with intention — knowing why your actions matter, not just that they happened.</p>
         </div>
-        <h4>Purpose</h4>
-        <p>Act with intention and contribute meaningfully.</p>
-        <span class="num">03</span>
-      </div>
-      <div class="pillar">
-        <div class="stamp-wrap">
-          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 48L32 18L44 48M24 38H40" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+
+        <div class="pillar" data-stamp>
+          <span class="num">04</span>
+          <div class="stamp-wrap">
+            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="32" cy="32" r="26" stroke="#9a2b2b" stroke-width="2.6"/>
+              <path d="M22 40 L32 16 L42 40 Z" stroke="#9a2b2b" stroke-width="3" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h4>Legacy</h4>
+          <p>What outlasts you — the standard you set that others choose to carry forward.</p>
         </div>
-        <h4>Legacy</h4>
-        <p>Leave a positive, lasting impact.</p>
-        <span class="num">04</span>
+
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- Founders Section -->
-<section class="founders">
-  <div class="wrap">
-    <div class="founders-grid">
-      <div class="founder">
-        <p class="sig sig-script">Dan</p>
-        <h5>Dan Mwamba</h5>
-        <p class="role">Co-Founder</p>
-      </div>
-      <div class="founders-mark">
-        <svg viewBox="0 0 62 72" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M31 12L45 22L45 60L17 60L17 22L31 12Z" fill="currentColor"/><circle cx="31" cy="35" r="2.5" fill="white"/></svg>
-      </div>
-      <div class="founder">
-        <p class="sig sig-script">Nathan</p>
-        <h5>Nathan Shako</h5>
-        <p class="role">Co-Founder</p>
+  <!-- BLACK BAR 2 -->
+  <section class="bar small reveal">
+    <div class="wrap">
+      <h2 class="display">Be your standard. Protekt ze brand.</h2>
+    </div>
+  </section>
+
+  <!-- STANDARD IN ACTION -->
+  <section class="vignettes" id="action">
+    <div class="wrap">
+      <div class="eyebrow mono reveal">Real moments</div>
+      <h2 class="display reveal">The standard in action</h2>
+      <p class="lead reveal">The pillars aren't slogans. They show up in small, unwatched decisions — here's what that actually looks like.</p>
+
+      <div class="vig-grid">
+        <div class="vig reveal">
+          <div class="vig-pillar">Respect</div>
+          <p>A junior teammate makes a mistake in front of the whole team. You correct it privately afterward, not publicly in the moment.</p>
+        </div>
+        <div class="vig reveal">
+          <div class="vig-pillar">Integrity</div>
+          <p>You notice an invoice was overpaid in your favor. No one would've caught it. You flag it anyway.</p>
+        </div>
+        <div class="vig reveal">
+          <div class="vig-pillar">Purpose</div>
+          <p>You turn down a deal that pays well but conflicts with what you actually stand for — because the money was never the point.</p>
+        </div>
+        <div class="vig reveal">
+          <div class="vig-pillar">Legacy</div>
+          <p>You take time to mentor someone with nothing to gain, because someone once did the same for you.</p>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- Values Strip -->
-<section class="values-strip">
-  <div class="wrap">
-    <span>Integrity</span>
-    <span class="sep">·</span>
-    <span>Respect</span>
-    <span class="sep">·</span>
-    <span>Purpose</span>
-    <span class="sep">·</span>
-    <span>Legacy</span>
-  </div>
-</section>
-
-<!-- Story Section -->
-<section class="story" id="story">
-  <div class="wrap">
-    <p class="eyebrow">OUR STORY</p>
-    <h2>How It Started</h2>
-    <p>PZB was born from a simple observation: reputation takes years to build but seconds to lose. In a world of constant scrutiny and digital permanence, we recognized the need for a movement—not just a brand.</p>
-    <p>We created PZB to inspire a shift in how people view themselves and their impact. It's about making conscious choices aligned with your values, understanding that every action contributes to your personal brand.</p>
-    <p>Be Your Standard is more than a tagline—it's an invitation to live authentically and build a legacy of trust.</p>
-  </div>
-</section>
-
-<!-- Vignettes Section -->
-<section class="vignettes">
-  <div class="wrap">
-    <p class="eyebrow">THE STANDARD IN ACTION</p>
-    <h2>Real Life Moments</h2>
-    <p class="lead">These are moments where the Four Standards shape real decisions and create real impact.</p>
-    <div class="vig-grid">
-      <div class="vig">
-        <p class="vig-pillar">INTEGRITY</p>
-        <p>You're in a situation where no one would know if you cut corners. You don't. Because your reputation isn't what people see—it's what you know about yourself.</p>
-      </div>
-      <div class="vig">
-        <p class="vig-pillar">RESPECT</p>
-        <p>Someone disagrees with you. You listen first. You acknowledge their perspective. You find common ground. Your brand grows through how you handle disagreement.</p>
-      </div>
-      <div class="vig">
-        <p class="vig-pillar">PURPOSE</p>
-        <p>You're building something—a career, a relationship, a skill. You know why it matters. Every action is intentional. Your work has weight.</p>
-      </div>
-      <div class="vig">
-        <p class="vig-pillar">LEGACY</p>
-        <p>Years later, someone remembers how you showed up. How you helped. How you inspired them. That's legacy. That's the brand you leave behind.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Pledge Section -->
-<section class="pledge-section">
-  <div class="wrap">
-    <div class="pledge-card">
-      <p class="eyebrow">THE PZB PLEDGE</p>
-      <h2>Take The Standard</h2>
-      <form id="pledgeForm">
-        <ul class="pledge-list">
-          <li class="pledge-item">
-            <div class="pledge-box">
-              <svg viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 7L5 10L11 2" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-            <div class="pledge-text">
-              <strong>I will lead with Integrity</strong>
-              <span>Act with honesty and moral principle</span>
-            </div>
-          </li>
-          <li class="pledge-item">
-            <div class="pledge-box">
-              <svg viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 7L5 10L11 2" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-            <div class="pledge-text">
-              <strong>I will practice Respect</strong>
-              <span>Value others' dignity and perspectives</span>
-            </div>
-          </li>
-          <li class="pledge-item">
-            <div class="pledge-box">
-              <svg viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 7L5 10L11 2" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-            <div class="pledge-text">
-              <strong>I will live with Purpose</strong>
-              <span>Act with intention and meaning</span>
-            </div>
-          </li>
-          <li class="pledge-item">
-            <div class="pledge-box">
-              <svg viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 7L5 10L11 2" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-            <div class="pledge-text">
-              <strong>I will build my Legacy</strong>
-              <span>Leave a positive and lasting impact</span>
-            </div>
-          </li>
-        </ul>
-        <input type="text" class="pledge-name" placeholder="Your name" required>
-        <button type="submit" class="pledge-btn">Take the Pledge</button>
-        <div class="pledge-result">
-          <p class="result-intro">WELCOME TO PZB</p>
-          <div class="badge-card">
-            <div class="badge-shield">
-              <svg viewBox="0 0 54 62" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M27 10L40 18L40 38C40 50 27 58 27 58C27 58 14 50 14 38L14 18L27 10Z" fill="currentColor"/></svg>
-            </div>
-            <p class="badge-eyebrow">PZB Badge Holder</p>
-            <p class="badge-title">Protekt Ze Brand</p>
-            <div class="badge-divider"></div>
-            <p class="badge-name-label">Authorized Member</p>
-            <p class="badge-name" id="badgeName"></p>
+  <!-- FOUNDERS -->
+  <section class="founders" id="founders">
+    <div class="wrap founders-grid">
+      <div class="founder reveal">
+        <div class="sig sig-script">Dan Mwamba</div>
+        <div class="founder-name-trigger" data-founder>
+          <h5>Dan Mwamba</h5>
+          <span class="founder-hint pulse">
+            <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>
+          </span>
+          <div class="founder-popover">
+            <a href="#" target="_blank" rel="noopener" aria-label="Dan Mwamba on Facebook" class="social-facebook">
+              <svg viewBox="0 0 24 24"><path d="M14.5 21.5v-7.7h2.6l.4-3h-3v-1.93c0-.87.24-1.46 1.49-1.46h1.6V4.74c-.28-.04-1.22-.12-2.33-.12-2.3 0-3.88 1.4-3.88 3.98v2.2H8.75v3h2.63v7.7h3.12Z"/></svg>
+            </a>
+            <a href="#" target="_blank" rel="noopener" aria-label="Dan Mwamba on Instagram" class="social-instagram">
+              <svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.85.07 1.17.06 1.97.24 2.43.42.61.24 1.05.52 1.5.97.46.46.74.9.98 1.5.18.46.36 1.26.42 2.43.07 1.25.07 1.65.07 4.85s0 3.6-.07 4.85c-.06 1.17-.24 1.97-.42 2.43-.24.61-.52 1.05-.97 1.5-.46.46-.9.74-1.5.98-.46.18-1.27.36-2.44.42-1.25.07-1.65.07-4.85.07s-3.6 0-4.85-.07c-1.17-.06-1.97-.24-2.43-.42-.61-.24-1.05-.52-1.5-.97a4.1 4.1 0 0 1-.98-1.5c-.18-.46-.36-1.27-.42-2.44-.07-1.25-.07-1.65-.07-4.85s0-3.6.07-4.85c.06-1.17.24-1.97.42-2.43.24-.61.52-1.05.97-1.5a4.1 4.1 0 0 1 1.5-.98c.46-.18 1.26-.36 2.43-.42C8.4 2.2 8.8 2.2 12 2.2Zm0 1.98c-3.15 0-3.52 0-4.76.07-1.06.05-1.6.21-1.98.36-.5.19-.85.42-1.22.79-.37.37-.6.72-.79 1.22-.15.38-.31.92-.36 1.97-.07 1.25-.07 1.62-.07 4.76s0 3.52.07 4.76c.05 1.06.21 1.6.36 1.98.19.5.42.85.79 1.22.37.37.72.6 1.22.79.38.15.92.31 1.98.36 1.24.07 1.61.07 4.76.07s3.52 0 4.76-.07c1.06-.05 1.6-.21 1.97-.36.5-.19.86-.42 1.22-.79.37-.37.6-.72.79-1.22.15-.38.31-.92.36-1.98.07-1.24.07-1.61.07-4.76s0-3.52-.07-4.76c-.05-1.06-.21-1.6-.36-1.97-.19-.5-.42-.86-.79-1.22a3.3 3.3 0 0 0-1.22-.79c-.38-.15-.91-.31-1.97-.36-1.25-.07-1.62-.07-4.77-.07Z"/><path d="M12 7.13a4.87 4.87 0 1 0 0 9.74 4.87 4.87 0 0 0 0-9.74Zm0 8.04a3.17 3.17 0 1 1 0-6.34 3.17 3.17 0 0 1 0 6.34Z"/><circle cx="17.1" cy="6.9" r="1.14"/></svg>
+            </a>
+            <a href="#" target="_blank" rel="noopener" aria-label="Dan Mwamba on LinkedIn" class="social-linkedin">
+              <svg viewBox="0 0 24 24"><path d="M5.34 3.5a2.16 2.16 0 1 1 0 4.32 2.16 2.16 0 0 1 0-4.32ZM3.36 9.18h3.96V20.5H3.36V9.18Zm6.7 0h3.8v1.55h.05c.53-1 1.82-2.06 3.74-2.06 4 0 4.74 2.63 4.74 6.05V20.5h-3.96v-5.4c0-1.29-.02-2.94-1.79-2.94-1.8 0-2.08 1.4-2.08 2.85v5.49h-3.96V9.18Z"/></svg>
+            </a>
+            <a href="#" target="_blank" rel="noopener" aria-label="Dan Mwamba on X" class="social-x">
+              <svg viewBox="0 0 24 24"><path d="M13.64 10.6 20.6 2.5h-1.65l-6.04 7.02L7.99 2.5H2.5l7.3 10.62L2.5 21.5h1.65l6.38-7.42 5.1 7.42h5.47l-7.46-10.9Zm-2.26 2.63-.74-1.06L4.76 3.72h2.54l4.74 6.78.74 1.06 6.16 8.81H16.4l-5.02-7.74Z"/></svg>
+            </a>
           </div>
         </div>
-      </form>
+        <div class="role">Co-Founder</div>
+      </div>
+      <div class="founders-mark reveal">
+        <span class="logo-slot logo-slot-md has-skeleton" data-logo>
+          <img src="pzb-logo.png" alt="PZB — Protekt Ze Brand logo" onload="this.classList.add('loaded'); this.parentElement.classList.remove('has-skeleton');" onerror="this.style.display='none'; this.parentElement.classList.remove('has-skeleton'); this.nextElementSibling.style.display='block';">
+          <svg class="logo-fallback" viewBox="0 0 100 116" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M50 2 L96 16 V58 C96 88 76 104 50 114 C24 104 4 88 4 58 V16 Z" fill="#0a0a0a"/>
+          </svg>
+        </span>
+      </div>
+      <div class="founder reveal">
+        <div class="sig sig-script">Nathan Shako</div>
+        <div class="founder-name-trigger" data-founder>
+          <h5>Nathan Shako</h5>
+          <span class="founder-hint pulse">
+            <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>
+          </span>
+          <div class="founder-popover">
+            <a href="#" target="_blank" rel="noopener" aria-label="Nathan Shako on Facebook" class="social-facebook">
+              <svg viewBox="0 0 24 24"><path d="M14.5 21.5v-7.7h2.6l.4-3h-3v-1.93c0-.87.24-1.46 1.49-1.46h1.6V4.74c-.28-.04-1.22-.12-2.33-.12-2.3 0-3.88 1.4-3.88 3.98v2.2H8.75v3h2.63v7.7h3.12Z"/></svg>
+            </a>
+            <a href="#" target="_blank" rel="noopener" aria-label="Nathan Shako on Instagram" class="social-instagram">
+              <svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.85.07 1.17.06 1.97.24 2.43.42.61.24 1.05.52 1.5.97.46.46.74.9.98 1.5.18.46.36 1.26.42 2.43.07 1.25.07 1.65.07 4.85s0 3.6-.07 4.85c-.06 1.17-.24 1.97-.42 2.43-.24.61-.52 1.05-.97 1.5-.46.46-.9.74-1.5.98-.46.18-1.27.36-2.44.42-1.25.07-1.65.07-4.85.07s-3.6 0-4.85-.07c-1.17-.06-1.97-.24-2.43-.42-.61-.24-1.05-.52-1.5-.97a4.1 4.1 0 0 1-.98-1.5c-.18-.46-.36-1.27-.42-2.44-.07-1.25-.07-1.65-.07-4.85s0-3.6.07-4.85c.06-1.17.24-1.97.42-2.43.24-.61.52-1.05.97-1.5a4.1 4.1 0 0 1 1.5-.98c.46-.18 1.26-.36 2.43-.42C8.4 2.2 8.8 2.2 12 2.2Zm0 1.98c-3.15 0-3.52 0-4.76.07-1.06.05-1.6.21-1.98.36-.5.19-.85.42-1.22.79-.37.37-.6.72-.79 1.22-.15.38-.31.92-.36 1.97-.07 1.25-.07 1.62-.07 4.76s0 3.52.07 4.76c.05 1.06.21 1.6.36 1.98.19.5.42.85.79 1.22.37.37.72.6 1.22.79.38.15.92.31 1.98.36 1.24.07 1.61.07 4.76.07s3.52 0 4.76-.07c1.06-.05 1.6-.21 1.97-.36.5-.19.86-.42 1.22-.79.37-.37.6-.72.79-1.22.15-.38.31-.92.36-1.98.07-1.24.07-1.61.07-4.76s0-3.52-.07-4.76c-.05-1.06-.21-1.6-.36-1.97-.19-.5-.42-.86-.79-1.22a3.3 3.3 0 0 0-1.22-.79c-.38-.15-.91-.31-1.97-.36-1.25-.07-1.62-.07-4.77-.07Z"/><path d="M12 7.13a4.87 4.87 0 1 0 0 9.74 4.87 4.87 0 0 0 0-9.74Zm0 8.04a3.17 3.17 0 1 1 0-6.34 3.17 3.17 0 0 1 0 6.34Z"/><circle cx="17.1" cy="6.9" r="1.14"/></svg>
+            </a>
+            <a href="#" target="_blank" rel="noopener" aria-label="Nathan Shako on LinkedIn" class="social-linkedin">
+              <svg viewBox="0 0 24 24"><path d="M5.34 3.5a2.16 2.16 0 1 1 0 4.32 2.16 2.16 0 0 1 0-4.32ZM3.36 9.18h3.96V20.5H3.36V9.18Zm6.7 0h3.8v1.55h.05c.53-1 1.82-2.06 3.74-2.06 4 0 4.74 2.63 4.74 6.05V20.5h-3.96v-5.4c0-1.29-.02-2.94-1.79-2.94-1.8 0-2.08 1.4-2.08 2.85v5.49h-3.96V9.18Z"/></svg>
+            </a>
+            <a href="#" target="_blank" rel="noopener" aria-label="Nathan Shako on X" class="social-x">
+              <svg viewBox="0 0 24 24"><path d="M13.64 10.6 20.6 2.5h-1.65l-6.04 7.02L7.99 2.5H2.5l7.3 10.62L2.5 21.5h1.65l6.38-7.42 5.1 7.42h5.47l-7.46-10.9Zm-2.26 2.63-.74-1.06L4.76 3.72h2.54l4.74 6.78.74 1.06 6.16 8.81H16.4l-5.02-7.74Z"/></svg>
+            </a>
+          </div>
+        </div>
+        <div class="role">Co-Founder</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALUES STRIP -->
+  <div class="values-strip">
+    <div class="wrap">
+      <span>Respect</span><span class="sep">|</span>
+      <span>Integrity</span><span class="sep">|</span>
+      <span>Purpose</span><span class="sep">|</span>
+      <span>Legacy</span>
     </div>
   </div>
-</section>
 
-<!-- CTA Section -->
-<section class="cta-section">
-  <div class="wrap">
-    <h2>Be Your Standard</h2>
-    <p>Join a community dedicated to integrity, respect, purpose, and legacy. Your reputation is your brand—protect it.</p>
-    <div class="social-row">
-      <a href="https://instagram.com" class="social-instagram" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="20" height="20" rx="5" fill="currentColor"/><circle cx="12" cy="12" r="3.5" fill="white"/><circle cx="18" cy="6" r="1.5" fill="white"/></svg>
-      </a>
-      <a href="https://x.com" class="social-x" aria-label="X" target="_blank" rel="noopener noreferrer">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><text x="12" y="18" font-size="20" fill="white" text-anchor="middle" font-weight="bold">𝕏</text></svg>
-      </a>
-      <a href="https://tiktok.com" class="social-tiktok" aria-label="TikTok" target="_blank" rel="noopener noreferrer">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19.5 5C18 3.5 16 2.5 14 2.5C10 2.5 7 5.5 7 9.5V19.5C7 20.3 6.3 21 5.5 21C4.7 21 4 20.3 4 19.5V9.5C4 5 7.5 1.5 12 1.5C15 1.5 17.5 3 19 5" stroke="white" stroke-width="1.5" fill="none"/></svg>
-      </a>
-      <a href="https://linkedin.com" class="social-linkedin" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="20" height="20" rx="2" fill="currentColor"/><path d="M7 9H9V17H7V9ZM8 7C7.4 7 7 7.4 7 8C7 8.6 7.4 9 8 9C8.6 9 9 8.6 9 8C9 7.4 8.6 7 8 7Z" fill="white"/><path d="M11 9H13V10C13.5 9.4 14.5 8.8 15.8 8.8C18 8.8 19 10.2 19 12.5V17H17V13C17 11.9 16.6 11 15.5 11C14.3 11 13.5 11.8 13.5 13V17H11V9Z" fill="white"/></svg>
-      </a>
-      <a href="https://youtube.com" class="social-youtube" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="20" height="20" rx="2" fill="currentColor"/><path d="M9 8L16 12L9 16V8Z" fill="white"/></svg>
-      </a>
+  <!-- PLEDGE -->
+  <section class="pledge-section" id="pledge">
+    <div class="wrap">
+      <div class="pledge-card reveal">
+
+        <div id="pledgeForm">
+          <div class="eyebrow mono">Take the standard</div>
+          <h2 class="display">PZB Badge of Vow</h2>
+
+          <ul class="pledge-list" id="pledgeList">
+            <li class="pledge-item" data-item>
+              <div class="pledge-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13 L10 18 L19 7"/></svg></div>
+              <div class="pledge-text"><strong>Respect</strong><span>I will treat people well, whether it costs me nothing or something.</span></div>
+            </li>
+            <li class="pledge-item" data-item>
+              <div class="pledge-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13 L10 18 L19 7"/></svg></div>
+              <div class="pledge-text"><strong>Integrity</strong><span>I will do the right thing, even when no one is watching.</span></div>
+            </li>
+            <li class="pledge-item" data-item>
+              <div class="pledge-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13 L10 18 L19 7"/></svg></div>
+              <div class="pledge-text"><strong>Purpose</strong><span>I will act with intention, not just convenience.</span></div>
+            </li>
+            <li class="pledge-item" data-item>
+              <div class="pledge-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13 L10 18 L19 7"/></svg></div>
+              <div class="pledge-text"><strong>Legacy</strong><span>I will leave things — and people — better than I found them.</span></div>
+            </li>
+          </ul>
+
+          <input type="text" class="pledge-name" id="pledgeName" placeholder="Type your name to take the vow">
+          <button class="pledge-btn mono" id="pledgeSubmit" disabled>Take the Vow</button>
+        </div>
+
+        <div class="pledge-result" id="pledgeResult">
+          <div class="result-intro mono">Your badge has been issued</div>
+
+          <div class="badge-card" id="badgeCard">
+            <div class="badge-sheen"></div>
+
+            <div class="badge-shield">
+              <svg viewBox="0 0 100 116" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M50 2 L96 16 V58 C96 88 76 104 50 114 C24 104 4 88 4 58 V16 Z" fill="#c9a45d"/>
+                <path d="M50 2 L96 16 V58 C96 88 76 104 50 114 C24 104 4 88 4 58 V16 Z" fill="#0a0a0a" fill-opacity="0.88" transform="scale(0.93)" transform-origin="50 58"/>
+                <text x="50" y="68" text-anchor="middle" font-family="Anton" font-size="34" fill="#c9a45d">PZB</text>
+              </svg>
+            </div>
+
+            <div class="badge-eyebrow mono">Certified Member</div>
+            <div class="badge-title">Badge of Vow</div>
+
+            <div class="badge-divider"></div>
+
+            <div class="badge-name-label mono">This vow is sworn by</div>
+            <div class="badge-name" id="badgeName">—</div>
+
+            <div class="badge-pillars">
+              <span>Respect</span><span class="dot">·</span>
+              <span>Integrity</span><span class="dot">·</span>
+              <span>Purpose</span><span class="dot">·</span>
+              <span>Legacy</span>
+            </div>
+
+            <div class="badge-footer-row">
+              <div class="badge-id mono" id="badgeId">PZB-000000</div>
+              <div class="badge-seal-mini">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#c9a45d" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13 L10 18 L19 7"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="badge-actions">
+            <button id="badgeShare" type="button">Share badge</button>
+            <button id="badgeRetake" type="button">Retake vow</button>
+          </div>
+
+          <p class="result-caption">You've taken the standard. Now protect it — in the moments no one else sees.</p>
+        </div>
+
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- Footer -->
+  <!-- FAQ -->
+  <section class="faq-section" id="faq">
+    <div class="wrap">
+      <div class="eyebrow mono reveal">Questions</div>
+      <h2 class="display reveal">Frequently asked</h2>
+
+      <div class="faq-list">
+        <div class="faq-item reveal" data-faq>
+          <button class="faq-q">
+            <span>What is PZB, exactly?</span>
+            <span class="plus"></span>
+          </button>
+          <div class="faq-a"><p>PZB — Protekt Ze Brand — is a standard for living, built around one idea: your reputation is your brand, and you protect it through your actions, not your image. It's a mindset and a community, not a product.</p></div>
+        </div>
+
+        <div class="faq-item reveal" data-faq>
+          <button class="faq-q">
+            <span>Who is PZB for?</span>
+            <span class="plus"></span>
+          </button>
+          <div class="faq-a"><p>Anyone who wants to hold themselves to a higher personal standard — in business, relationships, or daily life. There's no application or qualification. You decide to live it.</p></div>
+        </div>
+
+        <div class="faq-item reveal" data-faq>
+          <button class="faq-q">
+            <span>What does "ze" mean in the name?</span>
+            <span class="plus"></span>
+          </button>
+          <div class="faq-a"><p>It's a stylistic choice — part of the PZB identity, alongside the deliberate "Protekt" spelling. Together they form the acronym PZB and give the brand its own distinct voice.</p></div>
+        </div>
+
+        <div class="faq-item reveal" data-faq>
+          <button class="faq-q">
+            <span>How do I get involved?</span>
+            <span class="plus"></span>
+          </button>
+          <div class="faq-a"><p>Start by taking the PZB Badge of Vow above. Beyond that, follow PZB on social media for ongoing content, and reach out directly if you want to collaborate or bring PZB to your organization.</p></div>
+        </div>
+
+        <div class="faq-item reveal" data-faq>
+          <button class="faq-q">
+            <span>Is PZB a company or a movement?</span>
+            <span class="plus"></span>
+          </button>
+          <div class="faq-a"><p>At its core, PZB is a standard people choose to live by. Get in touch if you'd like to know more about how Dan and Nathan are building it out.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLOSING CTA -->
+  <section class="cta-section" id="join">
+    <div class="wrap">
+      <h2 class="display">Set your standard.</h2>
+      <p>Your reputation isn't built in the spotlight. It's built in the moments no one else sees. Start there.</p>
+      <a href="mailto:hello@protektzebrand.com" class="cta-btn mono">Get in touch</a>
+    </div>
+  </section>
+
+</main>
+
 <footer class="site-footer">
-  <div class="footer-watermark">
-    <span>#PZB</span>
-  </div>
-  <div class="footer-content">
-    <h2 class="footer-tag">Protekt Ze Brand</h2>
-    <div class="social-row">
-      <a href="https://instagram.com" class="social-instagram" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="20" height="20" rx="5" fill="currentColor"/><circle cx="12" cy="12" r="3.5" fill="white"/><circle cx="18" cy="6" r="1.5" fill="white"/></svg>
+  <div class="footer-watermark" aria-hidden="true"><span>#PZB</span></div>
+  <div class="wrap footer-content">
+    <div class="footer-tag">#PZB</div>
+
+    <div class="social-row" aria-label="Social media links">
+      <!-- Instagram -->
+      <a href="#" target="_blank" rel="noopener" aria-label="Instagram" class="social-instagram">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 2.2c3.2 0 3.6 0 4.85.07 1.17.06 1.97.24 2.43.42.61.24 1.05.52 1.5.97.46.46.74.9.98 1.5.18.46.36 1.26.42 2.43.07 1.25.07 1.65.07 4.85s0 3.6-.07 4.85c-.06 1.17-.24 1.97-.42 2.43-.24.61-.52 1.05-.97 1.5-.46.46-.9.74-1.5.98-.46.18-1.27.36-2.44.42-1.25.07-1.65.07-4.85.07s-3.6 0-4.85-.07c-1.17-.06-1.97-.24-2.43-.42-.61-.24-1.05-.52-1.5-.97a4.1 4.1 0 0 1-.98-1.5c-.18-.46-.36-1.27-.42-2.44-.07-1.25-.07-1.65-.07-4.85s0-3.6.07-4.85c.06-1.17.24-1.97.42-2.43.24-.61.52-1.05.97-1.5a4.1 4.1 0 0 1 1.5-.98c.46-.18 1.26-.36 2.43-.42C8.4 2.2 8.8 2.2 12 2.2Zm0 1.98c-3.15 0-3.52 0-4.76.07-1.06.05-1.6.21-1.98.36-.5.19-.85.42-1.22.79-.37.37-.6.72-.79 1.22-.15.38-.31.92-.36 1.97-.07 1.25-.07 1.62-.07 4.76s0 3.52.07 4.76c.05 1.06.21 1.6.36 1.98.19.5.42.85.79 1.22.37.37.72.6 1.22.79.38.15.92.31 1.98.36 1.24.07 1.61.07 4.76.07s3.52 0 4.76-.07c1.06-.05 1.6-.21 1.97-.36.5-.19.86-.42 1.22-.79.37-.37.6-.72.79-1.22.15-.38.31-.92.36-1.98.07-1.24.07-1.61.07-4.76s0-3.52-.07-4.76c-.05-1.06-.21-1.6-.36-1.97-.19-.5-.42-.86-.79-1.22a3.3 3.3 0 0 0-1.22-.79c-.38-.15-.91-.31-1.97-.36-1.25-.07-1.62-.07-4.77-.07Z"/>
+          <path d="M12 7.13a4.87 4.87 0 1 0 0 9.74 4.87 4.87 0 0 0 0-9.74Zm0 8.04a3.17 3.17 0 1 1 0-6.34 3.17 3.17 0 0 1 0 6.34Z"/>
+          <circle cx="17.1" cy="6.9" r="1.14"/>
+        </svg>
       </a>
-      <a href="https://x.com" class="social-x" aria-label="X" target="_blank" rel="noopener noreferrer">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><text x="12" y="18" font-size="20" fill="white" text-anchor="middle" font-weight="bold">𝕏</text></svg>
+      <!-- X / Twitter -->
+      <a href="#" target="_blank" rel="noopener" aria-label="X (Twitter)" class="social-x">
+        <svg viewBox="0 0 24 24">
+          <path d="M13.64 10.6 20.6 2.5h-1.65l-6.04 7.02L7.99 2.5H2.5l7.3 10.62L2.5 21.5h1.65l6.38-7.42 5.1 7.42h5.47l-7.46-10.9Zm-2.26 2.63-.74-1.06L4.76 3.72h2.54l4.74 6.78.74 1.06 6.16 8.81H16.4l-5.02-7.74Z"/>
+        </svg>
       </a>
-      <a href="https://tiktok.com" class="social-tiktok" aria-label="TikTok" target="_blank" rel="noopener noreferrer">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19.5 5C18 3.5 16 2.5 14 2.5C10 2.5 7 5.5 7 9.5V19.5C7 20.3 6.3 21 5.5 21C4.7 21 4 20.3 4 19.5V9.5C4 5 7.5 1.5 12 1.5C15 1.5 17.5 3 19 5" stroke="white" stroke-width="1.5" fill="none"/></svg>
+      <!-- TikTok -->
+      <a href="#" target="_blank" rel="noopener" aria-label="TikTok" class="social-tiktok">
+        <svg viewBox="0 0 24 24">
+          <path d="M16.6 2c.3 2.1 1.6 3.9 3.5 4.8.6.3 1.3.5 1.9.6v3.2c-1.4-.05-2.8-.45-4-1.2v6.5c0 3.5-2.85 6.3-6.35 6.1-3.2-.2-5.65-2.95-5.5-6.15.15-3.05 2.65-5.5 5.7-5.6.35-.01.7 0 1.04.05v3.3c-.3-.1-.6-.15-.93-.13-1.4.08-2.5 1.25-2.46 2.66.05 1.4 1.25 2.46 2.66 2.4 1.3-.05 2.34-1.1 2.34-2.4V2h2.11Z"/>
+        </svg>
       </a>
-      <a href="https://linkedin.com" class="social-linkedin" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="20" height="20" rx="2" fill="currentColor"/><path d="M7 9H9V17H7V9ZM8 7C7.4 7 7 7.4 7 8C7 8.6 7.4 9 8 9C8.6 9 9 8.6 9 8C9 7.4 8.6 7 8 7Z" fill="white"/><path d="M11 9H13V10C13.5 9.4 14.5 8.8 15.8 8.8C18 8.8 19 10.2 19 12.5V17H17V13C17 11.9 16.6 11 15.5 11C14.3 11 13.5 11.8 13.5 13V17H11V9Z" fill="white"/></svg>
+      <!-- LinkedIn -->
+      <a href="#" target="_blank" rel="noopener" aria-label="LinkedIn" class="social-linkedin">
+        <svg viewBox="0 0 24 24">
+          <path d="M5.34 3.5a2.16 2.16 0 1 1 0 4.32 2.16 2.16 0 0 1 0-4.32ZM3.36 9.18h3.96V20.5H3.36V9.18Zm6.7 0h3.8v1.55h.05c.53-1 1.82-2.06 3.74-2.06 4 0 4.74 2.63 4.74 6.05V20.5h-3.96v-5.4c0-1.29-.02-2.94-1.79-2.94-1.8 0-2.08 1.4-2.08 2.85v5.49h-3.96V9.18Z"/>
+        </svg>
       </a>
-      <a href="https://youtube.com" class="social-youtube" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="20" height="20" rx="2" fill="currentColor"/><path d="M9 8L16 12L9 16V8Z" fill="white"/></svg>
+      <!-- Facebook -->
+      <a href="#" target="_blank" rel="noopener" aria-label="Facebook" class="social-facebook">
+        <svg viewBox="0 0 24 24">
+          <path d="M14.5 21.5v-7.7h2.6l.4-3h-3v-1.93c0-.87.24-1.46 1.49-1.46h1.6V4.74c-.28-.04-1.22-.12-2.33-.12-2.3 0-3.88 1.4-3.88 3.98v2.2H8.75v3h2.63v7.7h3.12Z"/>
+        </svg>
+      </a>
+      <!-- YouTube -->
+      <a href="#" target="_blank" rel="noopener" aria-label="YouTube" class="social-youtube">
+        <svg viewBox="0 0 24 24">
+          <path d="M21.58 7.2a2.78 2.78 0 0 0-1.95-1.97C17.9 4.75 12 4.75 12 4.75s-5.9 0-7.63.48A2.78 2.78 0 0 0 2.42 7.2C1.94 8.95 1.94 12.5 1.94 12.5s0 3.55.48 5.3a2.78 2.78 0 0 0 1.95 1.97c1.73.48 7.63.48 7.63.48s5.9 0 7.63-.48a2.78 2.78 0 0 0 1.95-1.97c.48-1.75.48-5.3.48-5.3s0-3.55-.48-5.3ZM10.02 15.65V9.35l5.27 3.15-5.27 3.15Z"/>
+        </svg>
       </a>
     </div>
-    <div class="footer-bottom">
-      <p>© 2024 PZB — Protekt Ze Brand. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
-    </div>
+
+    <div class="footer-bottom mono">© 2026 PZB — PROTEKT ZE BRAND · Built by <a href="https://driflare.com" target="_blank" rel="noopener">Driflare</a></div>
   </div>
 </footer>
 
 <script>
-  // Scroll Progress Bar
-  const scrollProgress = document.querySelector('.scroll-progress');
-  window.addEventListener('scroll', () => {
-    const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const progress = (window.scrollY / totalHeight) * 100;
-    scrollProgress.style.width = progress + '%';
-  });
+  // scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const pillarEls = document.querySelectorAll('[data-stamp]');
 
-  // Mobile Menu Toggle
-  const navBurger = document.querySelector('.nav-burger');
-  const mobileDrawer = document.querySelector('.mobile-drawer');
-  const drawerOverlay = document.querySelector('.drawer-overlay');
-  
-  navBurger.addEventListener('click', () => {
-    navBurger.classList.toggle('open');
-    mobileDrawer.classList.toggle('open');
-    drawerOverlay.classList.toggle('open');
-  });
-
-  drawerOverlay.addEventListener('click', () => {
-    navBurger.classList.remove('open');
-    mobileDrawer.classList.remove('open');
-    drawerOverlay.classList.remove('open');
-  });
-
-  document.querySelectorAll('.mobile-drawer a').forEach(link => {
-    link.addEventListener('click', () => {
-      navBurger.classList.remove('open');
-      mobileDrawer.classList.remove('open');
-      drawerOverlay.classList.remove('open');
-    });
-  });
-
-  // Pillar Animation
-  const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px'
-  };
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('in-view');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add('in');
+        io.unobserve(e.target);
       }
     });
-  }, observerOptions);
+  }, { threshold: 0.18 });
 
-  document.querySelectorAll('.pillar').forEach(pillar => {
-    observer.observe(pillar);
-  });
+  revealEls.forEach(el=>io.observe(el));
 
-  // Pledge Form
+  const stampIo = new IntersectionObserver((entries)=>{
+    entries.forEach((e,i)=>{
+      if(e.isIntersecting){
+        setTimeout(()=>e.target.classList.add('in-view'), i*90);
+        stampIo.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  pillarEls.forEach(el=>stampIo.observe(el));
+
+  // scroll progress bar
+  const progressBar = document.getElementById('scrollProgress');
+  function updateProgress(){
+    const h = document.documentElement;
+    const scrolled = h.scrollTop;
+    const max = h.scrollHeight - h.clientHeight;
+    const pct = max > 0 ? (scrolled / max) * 100 : 0;
+    progressBar.style.width = pct + '%';
+  }
+  window.addEventListener('scroll', updateProgress, { passive:true });
+  updateProgress();
+
+  // pledge / badge of vow interactivity
+  const pledgeItems = document.querySelectorAll('[data-item]');
+  const pledgeNameInput = document.getElementById('pledgeName');
+  const pledgeSubmit = document.getElementById('pledgeSubmit');
   const pledgeForm = document.getElementById('pledgeForm');
-  const pledgeItems = document.querySelectorAll('.pledge-item');
-  const pledgeResult = document.querySelector('.pledge-result');
+  const pledgeResult = document.getElementById('pledgeResult');
+  const badgeCard = document.getElementById('badgeCard');
   const badgeName = document.getElementById('badgeName');
+  const badgeId = document.getElementById('badgeId');
+  const badgeShare = document.getElementById('badgeShare');
+  const badgeRetake = document.getElementById('badgeRetake');
 
-  pledgeItems.forEach(item => {
-    item.addEventListener('click', () => {
+  function checkPledgeReady(){
+    const allChecked = [...pledgeItems].every(i => i.classList.contains('checked'));
+    const hasName = pledgeNameInput.value.trim().length > 1;
+    pledgeSubmit.disabled = !(allChecked && hasName);
+  }
+
+  pledgeItems.forEach(item=>{
+    item.addEventListener('click', ()=>{
       item.classList.toggle('checked');
+      checkPledgeReady();
     });
   });
 
-  pledgeForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const name = document.querySelector('.pledge-name').value;
-    const allChecked = Array.from(pledgeItems).every(item => item.classList.contains('checked'));
-    
-    if (allChecked && name) {
-      badgeName.textContent = name.toUpperCase();
-      pledgeResult.classList.add('show');
-      pledgeForm.style.display = 'none';
+  pledgeNameInput.addEventListener('input', checkPledgeReady);
+
+  function genBadgeId(){
+    const n = Math.floor(100000 + Math.random()*899999);
+    return `PZB-${n}`;
+  }
+
+  function replayBadgeAnimation(){
+    // force re-trigger of CSS animations by cloning the card
+    const fresh = badgeCard.cloneNode(true);
+    badgeCard.replaceWith(fresh);
+  }
+
+  pledgeSubmit.addEventListener('click', ()=>{
+    if(pledgeSubmit.disabled) return;
+    const name = pledgeNameInput.value.trim();
+    document.getElementById('badgeName').textContent = name || 'A Standard-Bearer';
+    document.getElementById('badgeId').textContent = genBadgeId();
+    pledgeForm.style.display = 'none';
+    pledgeResult.classList.add('show');
+    replayBadgeAnimation();
+  });
+
+  badgeRetake.addEventListener('click', ()=>{
+    pledgeResult.classList.remove('show');
+    pledgeForm.style.display = '';
+    pledgeItems.forEach(i=>i.classList.remove('checked'));
+    pledgeNameInput.value = '';
+    checkPledgeReady();
+    document.getElementById('pledge').scrollIntoView({ behavior:'smooth', block:'start' });
+  });
+
+  badgeShare.addEventListener('click', async ()=>{
+    const name = document.getElementById('badgeName').textContent;
+    const shareText = `I just took the PZB Badge of Vow — Respect, Integrity, Purpose, Legacy. Your reputation is your brand. Protect it. #PZB`;
+    if(navigator.share){
+      try{
+        await navigator.share({ title:'PZB Badge of Vow', text:shareText, url: window.location.href });
+      }catch(e){ /* user cancelled, ignore */ }
     } else {
-      alert('Please check all items and enter your name to take the pledge.');
+      try{
+        await navigator.clipboard.writeText(`${shareText} ${window.location.href}`);
+        const original = badgeShare.textContent;
+        badgeShare.textContent = 'Copied!';
+        setTimeout(()=>{ badgeShare.textContent = original; }, 1800);
+      }catch(e){ /* clipboard unavailable, ignore silently */ }
     }
   });
+
+  // founder social popover — hover on desktop, tap on touch devices
+  const founderTriggers = document.querySelectorAll('[data-founder]');
+  const isTouchDevice = window.matchMedia('(hover: none)').matches;
+
+  function closeAllFounderPopovers(except){
+    founderTriggers.forEach(t=>{
+      if(t !== except) t.classList.remove('active');
+    });
+  }
+
+  founderTriggers.forEach(trigger=>{
+    if(isTouchDevice){
+      trigger.addEventListener('click', (e)=>{
+        e.stopPropagation();
+        const willOpen = !trigger.classList.contains('active');
+        closeAllFounderPopovers(trigger);
+        trigger.classList.toggle('active', willOpen);
+        trigger.querySelector('.founder-hint')?.classList.remove('pulse');
+      });
+    } else {
+      trigger.addEventListener('mouseenter', ()=>{
+        trigger.querySelector('.founder-hint')?.classList.remove('pulse');
+      });
+    }
+  });
+
+  document.addEventListener('click', (e)=>{
+    if(!e.target.closest('[data-founder]')) closeAllFounderPopovers();
+  });
+
+  // stop pulse hint automatically after a short while even if untouched
+  setTimeout(()=>{
+    document.querySelectorAll('.founder-hint.pulse').forEach(h=>h.classList.remove('pulse'));
+  }, 6500);
+
+  // FAQ accordion
+  document.querySelectorAll('[data-faq]').forEach(item=>{
+    const q = item.querySelector('.faq-q');
+    const a = item.querySelector('.faq-a');
+    q.addEventListener('click', ()=>{
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('[data-faq]').forEach(other=>{
+        other.classList.remove('open');
+        other.querySelector('.faq-a').style.maxHeight = null;
+      });
+      if(!isOpen){
+        item.classList.add('open');
+        a.style.maxHeight = a.scrollHeight + 'px';
+      }
+    });
+  });
+
+  // mobile drawer
+  const navBurger = document.getElementById('navBurger');
+  const mobileDrawer = document.getElementById('mobileDrawer');
+  const drawerOverlay = document.getElementById('drawerOverlay');
+
+  function closeDrawer(){
+    navBurger.classList.remove('open');
+    navBurger.setAttribute('aria-expanded','false');
+    mobileDrawer.classList.remove('open');
+    drawerOverlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function openDrawer(){
+    navBurger.classList.add('open');
+    navBurger.setAttribute('aria-expanded','true');
+    mobileDrawer.classList.add('open');
+    drawerOverlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  navBurger.addEventListener('click', ()=>{
+    mobileDrawer.classList.contains('open') ? closeDrawer() : openDrawer();
+  });
+  drawerOverlay.addEventListener('click', closeDrawer);
+  mobileDrawer.querySelectorAll('a').forEach(a=>a.addEventListener('click', closeDrawer));
+  window.addEventListener('resize', ()=>{ if(window.innerWidth > 760) closeDrawer(); });
 </script>
 
 </body>
