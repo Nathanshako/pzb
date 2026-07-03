@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1182,10 +1181,13 @@
     100%{ left:140%; }
   }
 
+  .badge-card.capturing .badge-sheen{ display:none; }
+
   .badge-actions{
     display:flex;
-    gap:12px;
+    gap:10px;
     justify-content:center;
+    flex-wrap:wrap;
     margin-bottom:22px;
     opacity:0;
     animation:fadeUp .5s ease forwards;
@@ -1201,9 +1203,12 @@
     background:transparent;
     color:var(--black);
     cursor:pointer;
-    transition:background .2s ease, color .2s ease;
+    transition:background .2s ease, color .2s ease, opacity .2s ease;
   }
   .badge-actions button:hover{ background:var(--black); color:var(--paper); }
+  .badge-actions button:disabled{ opacity:0.45; cursor:wait; }
+  .badge-actions button.primary{ background:var(--black); color:var(--paper); }
+  .badge-actions button.primary:hover{ background:#262626; }
 
   .pledge-result p.result-caption{
     font-size:14.5px;
@@ -1638,6 +1643,7 @@
           </div>
 
           <div class="badge-actions">
+            <button id="badgeDownload" type="button" class="primary">Save as image</button>
             <button id="badgeShare" type="button">Share badge</button>
             <button id="badgeRetake" type="button">Retake vow</button>
           </div>
@@ -1742,12 +1748,6 @@
           <path d="M5.34 3.5a2.16 2.16 0 1 1 0 4.32 2.16 2.16 0 0 1 0-4.32ZM3.36 9.18h3.96V20.5H3.36V9.18Zm6.7 0h3.8v1.55h.05c.53-1 1.82-2.06 3.74-2.06 4 0 4.74 2.63 4.74 6.05V20.5h-3.96v-5.4c0-1.29-.02-2.94-1.79-2.94-1.8 0-2.08 1.4-2.08 2.85v5.49h-3.96V9.18Z"/>
         </svg>
       </a>
-      <!-- Facebook -->
-      <a href="#" target="_blank" rel="noopener" aria-label="Facebook" class="social-facebook">
-        <svg viewBox="0 0 24 24">
-          <path d="M14.5 21.5v-7.7h2.6l.4-3h-3v-1.93c0-.87.24-1.46 1.49-1.46h1.6V4.74c-.28-.04-1.22-.12-2.33-.12-2.3 0-3.88 1.4-3.88 3.98v2.2H8.75v3h2.63v7.7h3.12Z"/>
-        </svg>
-      </a>
       <!-- YouTube -->
       <a href="#" target="_blank" rel="noopener" aria-label="YouTube" class="social-youtube">
         <svg viewBox="0 0 24 24">
@@ -1760,6 +1760,7 @@
   </div>
 </footer>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
   // scroll reveal
   const revealEls = document.querySelectorAll('.reveal');
@@ -1808,6 +1809,7 @@
   const badgeCard = document.getElementById('badgeCard');
   const badgeName = document.getElementById('badgeName');
   const badgeId = document.getElementById('badgeId');
+  const badgeDownload = document.getElementById('badgeDownload');
   const badgeShare = document.getElementById('badgeShare');
   const badgeRetake = document.getElementById('badgeRetake');
 
@@ -1831,17 +1833,24 @@
     return `PZB-${n}`;
   }
 
+  // Restarts the CSS entrance animations on the badge WITHOUT cloning/replacing
+  // the node (cloning used to desync the cached badgeName/badgeId/badgeCard
+  // references from the live DOM after a "retake", so a second badge silently
+  // failed to visually update). Instead we just toggle inline `animation: none`
+  // on every animated element and force a reflow so the same node replays.
   function replayBadgeAnimation(){
-    // force re-trigger of CSS animations by cloning the card
-    const fresh = badgeCard.cloneNode(true);
-    badgeCard.replaceWith(fresh);
+    const animatedEls = [badgeCard, ...badgeCard.querySelectorAll('*')];
+    animatedEls.forEach(el => { el.style.animation = 'none'; });
+    // force reflow so the browser "notices" the animation was removed
+    void badgeCard.offsetWidth;
+    animatedEls.forEach(el => { el.style.animation = ''; });
   }
 
   pledgeSubmit.addEventListener('click', ()=>{
     if(pledgeSubmit.disabled) return;
     const name = pledgeNameInput.value.trim();
-    document.getElementById('badgeName').textContent = name || 'A Standard-Bearer';
-    document.getElementById('badgeId').textContent = genBadgeId();
+    badgeName.textContent = name || 'A Standard-Bearer';
+    badgeId.textContent = genBadgeId();
     pledgeForm.style.display = 'none';
     pledgeResult.classList.add('show');
     replayBadgeAnimation();
@@ -1856,21 +1865,92 @@
     document.getElementById('pledge').scrollIntoView({ behavior:'smooth', block:'start' });
   });
 
-  badgeShare.addEventListener('click', async ()=>{
-    const name = document.getElementById('badgeName').textContent;
-    const shareText = `I just took the PZB Badge of Vow — Respect, Integrity, Purpose, Legacy. Your reputation is your brand. Protect it. #PZB`;
-    if(navigator.share){
-      try{
-        await navigator.share({ title:'PZB Badge of Vow', text:shareText, url: window.location.href });
-      }catch(e){ /* user cancelled, ignore */ }
-    } else {
-      try{
-        await navigator.clipboard.writeText(`${shareText} ${window.location.href}`);
-        const original = badgeShare.textContent;
-        badgeShare.textContent = 'Copied!';
-        setTimeout(()=>{ badgeShare.textContent = original; }, 1800);
-      }catch(e){ /* clipboard unavailable, ignore silently */ }
+  // ---- Badge image generation (shared by Save + Share) ----
+  // Renders the live badge card DOM node to a PNG blob via html2canvas.
+  async function renderBadgeToBlob(){
+    badgeCard.classList.add('capturing');
+    try{
+      const canvas = await html2canvas(badgeCard, {
+        backgroundColor: null,
+        scale: 3,               // crisp, high-res export
+        useCORS: true,
+        logging: false
+      });
+      return await new Promise(resolve => canvas.toBlob(resolve, 'image/png', 1));
+    } finally {
+      badgeCard.classList.remove('capturing');
     }
+  }
+
+  function downloadBlob(blob, filename){
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  async function withButtonBusy(btn, busyLabel, fn){
+    const original = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = busyLabel;
+    try{
+      await fn();
+    } catch(e){
+      console.error(e);
+    } finally {
+      btn.disabled = false;
+      btn.textContent = original;
+    }
+  }
+
+  badgeDownload.addEventListener('click', ()=>{
+    withButtonBusy(badgeDownload, 'Preparing…', async ()=>{
+      const blob = await renderBadgeToBlob();
+      downloadBlob(blob, `${badgeId.textContent}.png`);
+      const original = badgeDownload.textContent;
+      badgeDownload.textContent = 'Saved!';
+      setTimeout(()=>{ badgeDownload.textContent = 'Save as image'; }, 1600);
+    });
+  });
+
+  badgeShare.addEventListener('click', ()=>{
+    withButtonBusy(badgeShare, 'Preparing…', async ()=>{
+      const shareText = `I just took the PZB Badge of Vow — Respect, Integrity, Purpose, Legacy. Your reputation is your brand. Protect it. #PZB`;
+      const blob = await renderBadgeToBlob();
+      const file = new File([blob], `${badgeId.textContent}.png`, { type:'image/png' });
+
+      // Preferred path: native share sheet with the actual badge image attached
+      if(navigator.canShare && navigator.canShare({ files:[file] })){
+        try{
+          await navigator.share({ files:[file], title:'PZB Badge of Vow', text: shareText });
+          return;
+        }catch(e){
+          if(e && e.name === 'AbortError') return; // user cancelled, do nothing
+          // fall through to next option on other errors
+        }
+      }
+
+      // Fallback 1: text/link-only share (older mobile browsers)
+      if(navigator.share){
+        try{
+          await navigator.share({ title:'PZB Badge of Vow', text: shareText, url: window.location.href });
+          return;
+        }catch(e){
+          if(e && e.name === 'AbortError') return;
+        }
+      }
+
+      // Fallback 2: no Web Share API at all (most desktop browsers) —
+      // just download the image so the person still gets something to share manually.
+      downloadBlob(blob, `${badgeId.textContent}.png`);
+      const original = badgeShare.textContent;
+      badgeShare.textContent = 'Image saved!';
+      setTimeout(()=>{ badgeShare.textContent = original; }, 1800);
+    });
   });
 
   // founder social popover — hover on desktop, tap on touch devices
