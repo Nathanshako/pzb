@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Yoasi Solomon | PZB Founder Space</title>
+  <meta name="description" content="A dedicated founder space for Yoasi Solomon, a growing voice in the Protekt Ze Brand movement." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root { --black:#0a0a0a; --paper:#f3f1ec; --paper-2:#eae7df; --white:#ffffff; --seal:#9a2b2b; }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Inter', sans-serif;background:linear-gradient(135deg, var(--paper) 0%, var(--paper-2) 100%);color:var(--black);min-height:100vh;}
+    a{color:inherit;text-decoration:none;}
+    .wrap{width:min(1100px, calc(100% - 36px));margin:0 auto;}
+    .nav{padding:24px 0 10px;}
+    .nav-inner{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid rgba(10,10,10,.12);} 
+    .brand{font-family:'Anton', sans-serif;letter-spacing:.08em;font-size:1.15rem;text-transform:uppercase;}
+    .links{display:flex;gap:18px;font-family:'JetBrains Mono', monospace;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;}
+    .hero{padding:64px 0 32px;}
+    .hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:stretch;}
+    .hero-card{background:var(--white);border:1px solid rgba(10,10,10,.1);border-radius:24px;padding:34px;box-shadow:0 18px 60px rgba(10,10,10,.06);} 
+    .portrait-card{background:var(--white);border:1px solid rgba(10,10,10,.1);border-radius:24px;padding:24px;box-shadow:0 18px 60px rgba(10,10,10,.06);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:16px;text-align:center;}
+    .portrait-frame{width:min(220px, 100%);aspect-ratio:1;display:grid;place-items:center;border-radius:24px;background:linear-gradient(135deg, var(--black), var(--seal));color:var(--white);box-shadow:inset 0 0 0 1px rgba(255,255,255,0.2);font-family:'Anton', sans-serif;font-size:3rem;letter-spacing:.08em;text-transform:uppercase;}
+    .portrait-caption{font-size:.95rem;line-height:1.6;color:#3b3b3b;}
+    .eyebrow{display:inline-block;margin-bottom:14px;font-family:'JetBrains Mono', monospace;font-size:.75rem;letter-spacing:.24em;text-transform:uppercase;color:var(--seal);} 
+    h1{font-family:'Anton', sans-serif;font-size:clamp(2.2rem,5vw,3.8rem);line-height:1;text-transform:uppercase;margin-bottom:16px;} 
+    .lead{font-size:1.05rem;line-height:1.8;max-width:760px;color:#2d2d2d;}
+    .pillars{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;}
+    .pillars span{padding:9px 12px;border:1px solid rgba(10,10,10,.14);border-radius:999px;font-size:.8rem;font-family:'JetBrains Mono', monospace;letter-spacing:.12em;text-transform:uppercase;background:var(--paper);} 
+    .grid{display:grid;grid-template-columns:1.05fr .95fr;gap:24px;padding:10px 0 70px;}
+    .panel{background:var(--white);border:1px solid rgba(10,10,10,.1);border-radius:22px;padding:24px;box-shadow:0 16px 40px rgba(10,10,10,.05);} 
+    h2{font-family:'Anton', sans-serif;font-size:1.3rem;text-transform:uppercase;margin-bottom:10px;} 
+    p{font-size:1rem;line-height:1.8;color:#2c2c2c;}
+    .quote{font-size:1.1rem;font-weight:700;padding:16px 18px;border-left:4px solid var(--seal);background:var(--paper-2);border-radius:0 12px 12px 0;margin:16px 0 0;} 
+    .cta{display:inline-block;margin-top:18px;padding:12px 16px;background:var(--black);color:var(--white);border-radius:999px;font-family:'JetBrains Mono', monospace;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;}
+    .contact-form{display:grid;gap:12px;margin-top:16px;}
+    .contact-form input,.contact-form textarea{width:100%;padding:12px 14px;border:1px solid rgba(10,10,10,.12);border-radius:12px;font:inherit;background:var(--paper);color:var(--black);}
+    .contact-form textarea{min-height:110px;resize:vertical;}
+    .contact-form button{justify-self:start;padding:12px 16px;border:none;border-radius:999px;background:var(--black);color:var(--white);font-family:'JetBrains Mono', monospace;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;}
+    .media-grid{display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:16px;margin-top:16px;}
+    .media-card{background:var(--paper);border:1px solid rgba(10,10,10,.1);border-radius:16px;padding:16px;min-height:180px;display:flex;flex-direction:column;justify-content:space-between;}
+    .media-badge{display:inline-block;width:max-content;padding:7px 10px;border-radius:999px;background:var(--black);color:var(--white);font-family:'JetBrains Mono', monospace;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;}
+    .media-card p{font-size:.95rem;line-height:1.7;}
+    .media-placeholder{display:grid;place-items:center;min-height:90px;border:1px dashed rgba(10,10,10,.22);border-radius:12px;padding:14px;text-align:center;color:#444;font-size:.95rem;background:rgba(255,255,255,.6);} 
+    @media (max-width: 760px){.grid{grid-template-columns:1fr;}.hero-grid{grid-template-columns:1fr;}.hero-card{padding:24px;}.media-grid{grid-template-columns:1fr;}} 
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="../../index.html">PZB</a>
+      <nav class="links">
+        <a href="../../index.html">Home</a>
+        <a href="../../about.html">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <div class="hero-grid">
+        <div class="hero-card">
+          <div class="eyebrow">Founder Space</div>
+          <h1>Yoasi Solomon</h1>
+          <p class="lead">Yoasi brings a calm, steady presence to the PZB circle, grounding the movement in community, support, and the belief that leadership can be both strong and human.</p>
+          <div class="pillars">
+            <span>Builder</span>
+            <span>Community</span>
+            <span>Leadership</span>
+            <span>Support</span>
+          </div>
+        </div>
+        <aside class="portrait-card">
+          <div class="portrait-frame" aria-hidden="true">YS</div>
+          <p class="portrait-caption">A profile space for Yoasi. Replace this placeholder with a real photo when ready.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="grid">
+      <article class="panel">
+        <h2>What this page stands for</h2>
+        <p>This space is created to give Yoasi a place of recognition, reflection, and connection within the wider PZB story. It is a reminder that every voice in the movement matters and helps shape the culture of the brand.</p>
+        <div class="quote">“Real leadership creates room for others to rise.”</div>
+      </article>
+
+      <aside class="panel">
+        <h2>Movement note</h2>
+        <p>As PZB grows, these founder spaces become a place to celebrate people who help carry the message forward with courage, humility, and purpose.</p>
+        <h2 style="margin-top:20px;">Connect with Yoasi</h2>
+        <form class="contact-form" onsubmit="event.preventDefault(); const name=document.getElementById('contactName').value; const email=document.getElementById('contactEmail').value; const message=document.getElementById('contactMessage').value; const subject=encodeURIComponent('PZB collaboration or speaking request'); const body=encodeURIComponent('Name: '+name+'\nEmail: '+email+'\n\nMessage:\n'+message); window.location.href='mailto:yocomapny@gmail.com?subject='+subject+'&body='+body; this.reset();">
+          <input id="contactName" name="name" type="text" placeholder="Your name" required />
+          <input id="contactEmail" name="email" type="email" placeholder="Your email" required />
+          <textarea id="contactMessage" name="message" placeholder="Share a collaboration, mentorship, or community idea" required></textarea>
+          <button type="submit">Send message</button>
+        </form>
+        <a class="cta" href="../../index.html">Back to home</a>
+      </aside>
+    </section>
+
+    <section class="panel" style="margin:0 0 70px;">
+      <h2>Media & highlights</h2>
+      <p>This space is ready for videos, articles, and posts that reflect Yoasi’s voice and the PZB story.</p>
+      <div class="media-grid">
+        <div class="media-card">
+          <span class="media-badge">Instagram</span>
+          <div class="media-placeholder">Embed your Instagram post here</div>
+        </div>
+        <div class="media-card">
+          <span class="media-badge">Video</span>
+          <div class="media-placeholder">Add a talk or clip here</div>
+        </div>
+        <div class="media-card">
+          <span class="media-badge">Article</span>
+          <div class="media-placeholder">Link or embed a written article here</div>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

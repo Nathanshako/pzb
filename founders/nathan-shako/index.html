@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nathan Shako | PZB Founder Space</title>
+  <meta name="description" content="A dedicated founder space for Nathan Shako, co-founder of Protekt Ze Brand." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --black:#0a0a0a;
+      --paper:#f3f1ec;
+      --paper-2:#eae7df;
+      --white:#ffffff;
+      --seal:#9a2b2b;
+      --gold:#c9a45d;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{
+      font-family:'Inter', sans-serif;
+      background:linear-gradient(135deg, var(--paper) 0%, var(--paper-2) 100%);
+      color:var(--black);
+      min-height:100vh;
+    }
+    a{color:inherit;text-decoration:none;}
+    .wrap{width:min(1100px, calc(100% - 36px));margin:0 auto;}
+    .nav{padding:24px 0 10px;}
+    .nav-inner{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid rgba(10,10,10,.12);} 
+    .brand{font-family:'Anton', sans-serif;letter-spacing:.08em;font-size:1.15rem;text-transform:uppercase;}
+    .links{display:flex;gap:18px;font-family:'JetBrains Mono', monospace;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;}
+    .hero{padding:64px 0 32px;}
+    .hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:stretch;}
+    .hero-card{background:var(--white);border:1px solid rgba(10,10,10,.1);border-radius:24px;padding:34px;box-shadow:0 18px 60px rgba(10,10,10,.06);} 
+    .portrait-card{background:var(--white);border:1px solid rgba(10,10,10,.1);border-radius:24px;padding:24px;box-shadow:0 18px 60px rgba(10,10,10,.06);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:16px;text-align:center;}
+    .portrait-frame{width:min(220px, 100%);aspect-ratio:1;display:grid;place-items:center;border-radius:24px;background:linear-gradient(135deg, var(--black), var(--seal));color:var(--white);box-shadow:inset 0 0 0 1px rgba(255,255,255,0.2);}
+    .portrait-frame svg{width:70%;height:70%;}
+    .portrait-caption{font-size:.95rem;line-height:1.6;color:#3b3b3b;}
+    .eyebrow{display:inline-block;margin-bottom:14px;font-family:'JetBrains Mono', monospace;font-size:.75rem;letter-spacing:.24em;text-transform:uppercase;color:var(--seal);} 
+    h1{font-family:'Anton', sans-serif;font-size:clamp(2.2rem,5vw,3.8rem);line-height:1;text-transform:uppercase;margin-bottom:16px;} 
+    .lead{font-size:1.05rem;line-height:1.8;max-width:760px;color:#2d2d2d;}
+    .pillars{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;}
+    .pillars span{padding:9px 12px;border:1px solid rgba(10,10,10,.14);border-radius:999px;font-size:.8rem;font-family:'JetBrains Mono', monospace;letter-spacing:.12em;text-transform:uppercase;background:var(--paper);} 
+    .grid{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;padding:10px 0 70px;}
+    .panel{background:var(--white);border:1px solid rgba(10,10,10,.1);border-radius:22px;padding:24px;box-shadow:0 16px 40px rgba(10,10,10,.05);} 
+    h2{font-family:'Anton', sans-serif;font-size:1.35rem;text-transform:uppercase;margin-bottom:10px;} 
+    p{font-size:1rem;line-height:1.8;color:#2c2c2c;}
+    .quote{font-size:1.15rem;font-weight:700;padding:16px 18px;border-left:4px solid var(--seal);background:var(--paper-2);border-radius:0 12px 12px 0;margin:16px 0 0;} 
+    .stats{display:grid;gap:12px;margin-top:16px;}
+    .stat{padding:12px 14px;border:1px solid rgba(10,10,10,.1);border-radius:14px;background:var(--paper);} 
+    .stat strong{display:block;font-family:'JetBrains Mono', monospace;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;margin-bottom:4px;color:var(--seal);} 
+    .cta{display:inline-block;margin-top:18px;padding:12px 16px;background:var(--black);color:var(--white);border-radius:999px;font-family:'JetBrains Mono', monospace;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;}
+    .socials{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px;}
+    .socials a{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border:1px solid rgba(10,10,10,.12);border-radius:50%;background:var(--paper);transition:transform .2s ease, background .2s ease;}
+    .socials a:hover{transform:translateY(-2px);background:var(--paper-2);} 
+    .socials svg{width:18px;height:18px;fill:currentColor;}
+    .contact-form{display:grid;gap:12px;margin-top:16px;}
+    .contact-form input,.contact-form textarea{width:100%;padding:12px 14px;border:1px solid rgba(10,10,10,.12);border-radius:12px;font:inherit;background:var(--paper);color:var(--black);}
+    .contact-form textarea{min-height:110px;resize:vertical;}
+    .contact-form button{justify-self:start;padding:12px 16px;border:none;border-radius:999px;background:var(--black);color:var(--white);font-family:'JetBrains Mono', monospace;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;}
+    .media-grid{display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:16px;margin-top:16px;}
+    .media-card{background:var(--paper);border:1px solid rgba(10,10,10,.1);border-radius:16px;padding:16px;min-height:180px;display:flex;flex-direction:column;justify-content:space-between;}
+    .media-badge{display:inline-block;width:max-content;padding:7px 10px;border-radius:999px;background:var(--black);color:var(--white);font-family:'JetBrains Mono', monospace;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;}
+    .media-card p{font-size:.95rem;line-height:1.7;}
+    .media-placeholder{display:grid;place-items:center;min-height:90px;border:1px dashed rgba(10,10,10,.22);border-radius:12px;padding:14px;text-align:center;color:#444;font-size:.95rem;background:rgba(255,255,255,.6);} 
+    @media (max-width: 760px){.grid{grid-template-columns:1fr;}.hero-grid{grid-template-columns:1fr;}.hero-card{padding:24px;}.media-grid{grid-template-columns:1fr;}} 
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="../../index.html">PZB</a>
+      <nav class="links">
+        <a href="../../index.html">Home</a>
+        <a href="../../about.html">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <div class="hero-grid">
+        <div class="hero-card">
+          <div class="eyebrow">Founder Space</div>
+          <h1>Nathan Shako</h1>
+          <p class="lead">Nathan Shako is a co-founder of Protekt Ze Brand, and his role in the movement has been to turn an inspiring idea into a digital identity that can grow beyond the classroom.</p>
+          <div class="pillars">
+            <span>Co-Founder</span>
+            <span>Builder</span>
+            <span>Digital Voice</span>
+            <span>Next-Gen Mentor</span>
+          </div>
+          <div class="socials" aria-label="Nathan Shako social links">
+            <a href="https://github.com/trueshako" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24"><path d="M12 .5a12 12 0 0 0-3.79 23.03c.6.11.82-.26.82-.58v-2.04c-3.34.73-4.04-1.43-4.04-1.43-.54-1.38-1.32-1.75-1.32-1.75-1.08-.74.08-.72.08-.72 1.2.08 1.83 1.23 1.83 1.23 1.06 1.82 2.78 1.29 3.46.99.11-.77.42-1.29.76-1.59-2.66-.3-5.47-1.33-5.47-5.92 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6.02 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.24 2.87.12 3.17.77.84 1.24 1.91 1.24 3.22 0 4.6-2.82 5.62-5.5 5.91.43.38.82 1.13.82 2.28v3.38c0 .32.22.69.83.58A12 12 0 0 0 12 .5Z"/></svg></a>
+            <a href="https://instagram.com/trueshako" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7Zm5 3.5A4.5 4.5 0 1 1 7.5 12 4.5 4.5 0 0 1 12 7.5Zm0 2A2.5 2.5 0 1 0 14.5 12 2.5 2.5 0 0 0 12 9.5Zm5.25-3.25a1.25 1.25 0 1 1-1.25 1.25 1.25 1.25 0 0 1 1.25-1.25Z"/></svg></a>
+            <a href="https://x.com/trueshako" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24"><path d="M18.9 2H22l-6.8 7.8L23.5 22h-5.4l-4.2-5.5L8.7 22H5.6l7.2-8.3L.5 2h5.5l3.8 5.1L18.9 2Z"/></svg></a>
+          </div>
+        </div>
+        <aside class="portrait-card">
+          <div class="portrait-frame" aria-hidden="true">
+            <svg viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="64" cy="64" r="60" fill="rgba(255,255,255,0.12)"/>
+              <path d="M64 26c-12.7 0-23 10.3-23 23s10.3 23 23 23 23-10.3 23-23S76.7 26 64 26Zm0 58c-19.2 0-35 12.8-35 28.5V118h70v-5.5C99 96.8 83.2 84 64 84Z" fill="white"/>
+            </svg>
+          </div>
+          <p class="portrait-caption">Portrait space for Nathan. Replace this placeholder with a real photo when ready.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="grid">
+      <article class="panel">
+        <h2>How PZB started</h2>
+        <p>My name is Nathan Shako, co-founder of Protekt Ze Brand (PZB) and founder of Driflare. The journey of PZB started in 2025, when I joined Form 3 after performing well in the Junior Certificate Examinations (JCE). At that time, my classmate Dan Mwamba, who had a strong sense of vision and leadership, shared an idea that would later grow into something much bigger.</p>
+        <p>Dan noticed that as students moved through school, their behavior and reputation changed over time. He introduced the idea of “brand” as reputation — how others see your discipline, character, and conduct. The message “Protect your brand” quickly resonated with students and began to spread naturally.</p>
+        <p>When I first heard Dan explain it, I saw something more than a school message. I saw a concept that could grow beyond the classroom. In December 2025, I began refining the idea and helped shape it into the name Protekt Ze Brand, short form PZB.</p>
+        <div class="quote">“Protect your brand” became the seed of a larger vision about identity, discipline, and how people present themselves to the world.</div>
+      </article>
+
+      <aside class="panel">
+        <h2>From idea to vision</h2>
+        <p>I helped create the first social media pages for PZB, shared the idea with Dan, and together we began shaping the early identity of the brand. We designed the first logo and later improved it as the concept matured.</p>
+        <p>As the idea grew, we explored possible futures for PZB, including fashion, music, and film. By May 2026, I was also using AI tools to help build a full website for PZB as part of my startup Driflare. We are still early, but our goal remains the same: to build PZB into a global identity centered on discipline, reputation, and creative expression.</p>
+        <h2 style="margin-top:20px;">Connect with Nathan</h2>
+        <form class="contact-form" onsubmit="event.preventDefault(); const name=document.getElementById('contactName').value; const email=document.getElementById('contactEmail').value; const message=document.getElementById('contactMessage').value; const subject=encodeURIComponent('PZB collaboration or speaking request'); const body=encodeURIComponent('Name: '+name+'\nEmail: '+email+'\n\nMessage:\n'+message); window.location.href='mailto:nathanshako10@gmail.com?subject='+subject+'&body='+body; this.reset();">
+          <input id="contactName" name="name" type="text" placeholder="Your name" required />
+          <input id="contactEmail" name="email" type="email" placeholder="Your email" required />
+          <textarea id="contactMessage" name="message" placeholder="Tell Nathan about collaboration, speaking, mentorship, or a project" required></textarea>
+          <button type="submit">Send message</button>
+        </form>
+        <a class="cta" href="../../index.html#founders">Meet the movement</a>
+      </aside>
+    </section>
+
+    <section class="panel" style="margin:0 0 70px;">
+      <h2>Media & highlights</h2>
+      <p>This space is ready for videos, articles, and Instagram posts that reflect Nathan’s voice and the PZB story.</p>
+      <div class="media-grid">
+        <div class="media-card">
+          <span class="media-badge">Instagram</span>
+          <div class="media-placeholder"><blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/DZO8wBzI2zT/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);"><div style="padding:16px;"> <a href="https://www.instagram.com/p/DZO8wBzI2zT/?utm_source=ig_embed&amp;utm_campaign=loading" style=" background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank"> <div style=" display: flex; flex-direction: row; align-items: center;"> <div style="background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 40px; margin-right: 14px; width: 40px;"></div> <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center;"> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 100px;"></div> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 60px;"></div></div></div><div style="padding: 19% 0;"></div> <div style="display:block; height:50px; margin:0 auto 12px; width:50px;"><svg width="50px" height="50px" viewBox="0 0 60 60" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g transform="translate(-511.000000, -20.000000)" fill="#000000"><g><path d="M556.869,30.41 C554.814,30.41 553.148,32.076 553.148,34.131 C553.148,36.186 554.814,37.852 556.869,37.852 C558.924,37.852 560.59,36.186 560.59,34.131 C560.59,32.076 558.924,30.41 556.869,30.41 M541,60.657 C535.114,60.657 530.342,55.887 530.342,50 C530.342,44.114 535.114,39.342 541,39.342 C546.887,39.342 551.658,44.114 551.658,50 C551.658,55.887 546.887,60.657 541,60.657 M541,33.886 C532.1,33.886 524.886,41.1 524.886,50 C524.886,58.899 532.1,66.113 541,66.113 C549.9,66.113 557.115,58.899 557.115,50 C557.115,41.1 549.9,33.886 541,33.886 M565.378,62.101 C565.244,65.022 564.756,66.606 564.346,67.663 C563.803,69.06 563.154,70.057 562.106,71.106 C561.058,72.155 560.06,72.803 558.662,73.347 C557.607,73.757 556.021,74.244 553.102,74.378 C549.944,74.521 548.997,74.552 541,74.552 C533.003,74.552 532.056,74.521 528.898,74.378 C525.979,74.244 524.393,73.757 523.338,73.347 C521.94,72.803 520.942,72.155 519.894,71.106 C518.846,70.057 518.197,69.06 517.654,67.663 C517.244,66.606 516.755,65.022 516.623,62.101 C516.479,58.943 516.448,57.996 516.448,50 C516.448,42.003 516.479,41.056 516.623,37.899 C516.755,34.978 517.244,33.391 517.654,32.338 C518.197,30.938 518.846,29.942 519.894,28.894 C520.942,27.846 521.94,27.196 523.338,26.654 C524.393,26.244 525.979,25.756 528.898,25.623 C532.057,25.479 533.004,25.448 541,25.448 C548.997,25.448 549.943,25.479 553.102,25.623 C556.021,25.756 557.607,26.244 558.662,26.654 C560.06,27.196 561.058,27.846 562.106,28.894 C563.154,29.942 563.803,30.938 564.346,32.338 C564.756,33.391 565.244,34.978 565.378,37.899 C565.522,41.056 565.552,42.003 565.552,50 C565.552,57.996 565.522,58.943 565.378,62.101 M570.82,37.631 C570.674,34.438 570.167,32.258 569.425,30.349 C568.659,28.377 567.633,26.702 565.965,25.035 C564.297,23.368 562.623,22.342 560.652,21.575 C558.743,20.834 556.562,20.326 553.369,20.18 C550.169,20.033 549.148,20 541,20 C532.853,20 531.831,20.033 528.631,20.18 C525.438,20.326 523.257,20.834 521.349,21.575 C519.376,22.342 517.703,23.368 516.035,25.035 C514.368,26.702 513.342,28.377 512.574,30.349 C511.834,32.258 511.326,34.438 511.181,37.631 C511.035,40.831 511,41.851 511,50 C511,58.147 511.035,59.17 511.181,62.369 C511.326,65.562 511.834,67.743 512.574,69.651 C513.342,71.625 514.368,73.296 516.035,74.965 C517.703,76.634 519.376,77.658 521.349,78.425 C523.257,79.167 525.438,79.673 528.631,79.82 C531.831,79.965 532.853,80.001 541,80.001 C549.148,80.001 550.169,79.965 553.369,79.82 C556.562,79.673 558.743,79.167 560.652,78.425 C562.623,77.658 564.297,76.634 565.965,74.965 C567.633,73.296 568.659,71.625 569.425,69.651 C570.167,67.743 570.674,65.562 570.82,62.369 C570.966,59.17 571,58.147 571,50 C571,41.851 570.966,40.831 570.82,37.631"></path></g></g></g></svg></div><div style="padding-top: 8px;"> <div style=" color:#3897f0; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:550; line-height:18px;">View this post on Instagram</div></div><div style="padding: 12.5% 0;"></div> <div style="display: flex; flex-direction: row; margin-bottom: 14px; align-items: center;"><div> <div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(0px) translateY(7px);"></div> <div style="background-color: #F4F4F4; height: 12.5px; transform: rotate(-45deg) translateX(3px) translateY(1px); width: 12.5px; flex-grow: 0; margin-right: 14px; margin-left: 2px;"></div> <div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(9px) translateY(-18px);"></div></div><div style="margin-left: 8px;"> <div style=" background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 20px; width: 20px;"></div> <div style=" width: 0; height: 0; border-top: 2px solid transparent; border-left: 6px solid #f4f4f4; border-bottom: 2px solid transparent; transform: translateX(16px) translateY(-4px) rotate(30deg)"></div></div><div style="margin-left: auto;"> <div style=" width: 0px; border-top: 8px solid #F4F4F4; border-right: 8px solid transparent; transform: translateY(16px);"></div> <div style=" background-color: #F4F4F4; flex-grow: 0; height: 12px; width: 16px; transform: translateY(-4px);"></div> <div style=" width: 0; height: 0; border-top: 8px solid #F4F4F4; border-left: 8px solid transparent; transform: translateY(-4px) translateX(8px);"></div></div></div> <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center; margin-bottom: 24px;"> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 224px;"></div> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 144px;"></div></div></a><p style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;"><a href="https://www.instagram.com/p/DZO8wBzI2zT/?utm_source=ig_embed&amp;utm_campaign=loading" style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px; text-decoration:none;" target="_blank">A post shared by Nathan Shako (@trueshako)</a></p></div></blockquote>
+<script async src="//www.instagram.com/embed.js"></script></div>
+        </div>
+        <div class="media-card">
+          <span class="media-badge">Video</span>
+          <div class="media-placeholder">Add a talk, clip, or short feature here</div>
+        </div>
+        <div class="media-card">
+          <span class="media-badge">Article</span>
+          <div class="media-placeholder">Link or embed a written article here</div>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
