@@ -31,73 +31,158 @@
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bungee&family=Monoton&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <!-- Structured data so search engines understand this is the PZB brand -->
+<!-- ===========================
+     Protekt Ze Brand (PZB)
+     Structured Data for Google
+     =========================== -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Organization",
-
-  "@id": "https://pzb.driflare.com/#organization",
-
-  "name": "Protekt Ze Brand",
-  "alternateName": "PZB",
-
-  "url": "https://pzb.driflare.com",
-
-  "logo": {
-    "@type": "ImageObject",
-    "url": "https://pzb.driflare.com/pzb-logo.png",
-    "width": 512,
-    "height": 512
-  },
-
-  "image": "https://pzb.driflare.com/pzb-logo.png",
-
-  "description": "Protekt Ze Brand (PZB) is a youth-led organization founded in 2025 in Dzaleka Camp, Malawi. It empowers young people through personal branding, leadership, creativity, entrepreneurship and digital innovation.",
-
-  "foundingDate": "2025",
-
-  "foundingLocation": {
-    "@type": "Place",
-    "name": "Dzaleka Refugee Camp, Malawi"
-  },
-
-  "founder": [
+  "@graph": [
 
     {
-      "@type": "Person",
+      "@type": "Organization",
+      "@id": "https://pzb.driflare.com/#organization",
 
-      "name": "Nathan Shako",
+      "name": "Protekt Ze Brand",
+      "alternateName": "PZB",
+      "legalName": "Protekt Ze Brand",
 
-      "alternateName": "trueshako",
+      "url": "https://pzb.driflare.com",
 
-      "jobTitle": "Co-Founder",
+      "logo": {
+        "@type": "ImageObject",
+        "@id": "https://pzb.driflare.com/#logo",
+        "url": "https://pzb.driflare.com/pzb-logo.png"
+      },
+
+      "image": {
+        "@id": "https://pzb.driflare.com/#logo"
+      },
+
+      "description": "Protekt Ze Brand (PZB) is a youth-led organization founded in 2025 in Dzaleka Refugee Camp, Malawi. Founded by Nathan Shako and Dan Mwamba, PZB empowers young people to protect, build and grow their personal brands through leadership, entrepreneurship, creativity, technology and digital innovation.",
+
+      "slogan": "Protect Your Brand. Build Your Legacy.",
+
+      "foundingDate": "2025",
+
+      "foundingLocation": {
+        "@type": "Place",
+        "name": "Dzaleka Refugee Camp, Malawi"
+      },
+
+      "areaServed": "Worldwide",
+
+      "knowsAbout": [
+        "Personal Branding",
+        "Leadership",
+        "Entrepreneurship",
+        "Technology",
+        "Digital Innovation",
+        "Youth Empowerment",
+        "Artificial Intelligence",
+        "Creativity",
+        "Business",
+        "Public Speaking"
+      ],
+
+      "keywords": [
+        "Protekt Ze Brand",
+        "PZB",
+        "Personal Branding",
+        "Leadership",
+        "Youth",
+        "Innovation",
+        "Entrepreneurship",
+        "Technology",
+        "Africa",
+        "Malawi"
+      ],
+
+      "founder": [
+
+        {
+          "@type": "Person",
+
+          "name": "Nathan Shako",
+
+          "alternateName": "trueshako",
+
+          "jobTitle": "Co-Founder",
+
+          "description": "Co-Founder of Protekt Ze Brand and Founder of Driflare.",
+
+          "sameAs": [
+            "https://github.com/trueshako",
+            "https://instagram.com/trueshako",
+            "https://facebook.com/trueshako",
+            "https://x.com/trueshako",
+            "https://youtube.com/@trueshako"
+          ]
+        },
+
+        {
+          "@type": "Person",
+
+          "name": "Dan Mwamba",
+
+          "jobTitle": "Co-Founder",
+
+          "description": "Co-Founder of Protekt Ze Brand.",
+
+          "sameAs": [
+            "https://linkedin.com/in/danmwamba",
+            "https://web.facebook.com/ZeBrandProtektor"
+          ]
+        }
+
+      ],
 
       "sameAs": [
-        "https://github.com/trueshako",
-        "https://instagram.com/trueshako",
-        "https://facebook.com/trueshako",
-        "https://x.com/trueshako",
-        "https://youtube.com/@trueshako"
+        "https://instagram.com/protektzebrand"
       ]
     },
 
     {
-      "@type": "Person",
+      "@type": "WebSite",
 
-      "name": "Dan Mwamba",
+      "@id": "https://pzb.driflare.com/#website",
 
-      "jobTitle": "Co-Founder",
+      "url": "https://pzb.driflare.com",
 
-      "sameAs": [
-        "https://linkedin.com/in/danmwamba",
-        "https://web.facebook.com/ZeBrandProtektor"
-      ]
+      "name": "Protekt Ze Brand",
+
+      "description": "Official website of Protekt Ze Brand.",
+
+      "publisher": {
+        "@id": "https://pzb.driflare.com/#organization"
+      },
+
+      "inLanguage": "en"
+    },
+
+    {
+      "@type": "WebPage",
+
+      "@id": "https://pzb.driflare.com/#homepage",
+
+      "url": "https://pzb.driflare.com",
+
+      "name": "Protekt Ze Brand",
+
+      "isPartOf": {
+        "@id": "https://pzb.driflare.com/#website"
+      },
+
+      "about": {
+        "@id": "https://pzb.driflare.com/#organization"
+      },
+
+      "primaryImageOfPage": {
+        "@id": "https://pzb.driflare.com/#logo"
+      }
     }
 
-  ],
-
-  "sameAs": [
-    "https://instagram.com/protektzebrand"
   ]
 }
 </script>
